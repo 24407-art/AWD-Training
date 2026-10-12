@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/jobs")
+@RequestMapping("/mic2/jobs")
 @Tag(name = "Jobs", description = "Manage job offers")
 public class JobController {
 
