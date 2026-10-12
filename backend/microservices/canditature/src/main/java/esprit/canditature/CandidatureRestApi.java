@@ -3,6 +3,7 @@ package esprit.canditature;
 import esprit.canditature.dto.Candidate;
 import esprit.canditature.feignClient.CandidatClient;
 import feign.FeignException;
+import feign.codec.DecodeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,13 @@ public class CandidatureRestApi {
     @ExceptionHandler(FeignException.NotFound.class)
     public ResponseEntity<String> candidatNotFound(FeignException.NotFound e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Candidat introuvable dans le microservice CANDIDAT");
+    }
+
+    // candidat answered, but its JSON could not be converted into Candidate -> 502 (not "unavailable")
+    @ExceptionHandler(DecodeException.class)
+    public ResponseEntity<String> candidatUnreadable(DecodeException e) {
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                .body("Réponse de CANDIDAT illisible : " + e.getMessage());
     }
 
     // candidat stopped or not registered in Eureka -> 503 Service Unavailable
