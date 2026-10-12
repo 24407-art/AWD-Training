@@ -1,64 +1,114 @@
+# Workshop 4 – Communication inter-services avec OpenFeign
 
-# 🚀 Architecture Microservices : Du Monolithe vers l'Écosystème Distribué
-📅 **Année universitaire : 2025–2026** 
-
-
-Ce dépôt contient l'ensemble des ressources pédagogiques et techniques pour le module de développement d'architectures microservices. 
-Ce repository contient les ressources, exemples et travaux pratiques du cours **Microservices avec Java & Spring**.  
-L’objectif est d’apprendre à concevoir, développer et déployer des applications basées sur une architecture microservices.
+🎓 **Formation : Microservices**  
+📅 **Année universitaire : 2026–2027**  
+🧑‍💻 **Workshop 4**
 
 ---
 
-## 🎯 Objectifs d'Apprentissage (AA)
+## 🎯 Objectif du workshop
 
-À l'issue de cette formation, l'apprenant sera capable de :
+L’objectif de ce workshop est de mettre en place la communication inter-microservices en utilisant **Spring Cloud OpenFeign**.
 
-* **AA1 :** Distinguer les architectures microservices des monolithes en identifiant leurs avantages et contraintes opérationnelles.
-* **AA2 :** Concevoir et développer des services autonomes en respectant les principes de découplage et de responsabilité unique.
-* **AA3 :** Mettre en œuvre la découverte de services pour automatiser la mise en relation dynamique des composants du système.
-* **AA4 :** Configurer une API Gateway pour centraliser le routage des flux et appliquer des filtres transverses.
-* **AA5 :** Gérer la configuration externalisée pour modifier le comportement des services sans redémarrage manuel.
-* **AA6 :** Sécuriser l'architecture via des mécanismes d'authentification et d'autorisation centralisés.
-* **AA7 :** Conteneuriser les applications avec Docker pour assurer un déploiement fluide et reproductible.
-* **AA8 :** Réaliser un projet complet intégrant la communication inter-services et la validation des flux de bout en bout.
+À la fin de ce workshop, l’étudiant sera capable de :
+
+- Comprendre le principe de communication synchrone entre microservices
+- Configurer et utiliser OpenFeign
+- Intégrer Eureka pour la découverte dynamique des services
+- Implémenter un endpoint enrichi (agrégation de données)
+- Respecter les bonnes pratiques d’architecture microservices
 
 ---
 
-## 🛠️ Technical Requirements
+## 🧩 Architecture mise en place
 
-Avant de commencer, merci d’installer les outils suivants :
+Dans ce workshop, nous mettons en œuvre :
 
-* **Environnement de développement:** IntelliJ IDEA Ultimate (recommandé)
-* **Langage & outils:**
-- JDK 17 ou supérieur  
+- 🖥️ Un **Eureka Server**
+- 📦 Microservice **Job**
+- 👤 Microservice **Candidat**
+- 📑 Microservice **Candidature**
+- 🔁 Communication inter-services via **OpenFeign**
+
+Le microservice **Candidature** :
+
+- Stocke uniquement `jobId` et `candidatId`
+- Récupère les informations complètes via Feign
+- Propose un endpoint enrichi `/details`
+
+---
+
+## 🔄 Principe de fonctionnement
+
+1. Le client appelle le microservice **Candidature**.
+2. Le service récupère les données locales.
+3. Il interroge dynamiquement :
+    - Le microservice **Job**
+    - Le microservice **Candidat**
+4. Il retourne une réponse enrichie combinant les données.
+
+---
+
+## 🛠️ Technologies utilisées
+
+- Java 17
+- Spring Boot 3.x
+- Spring Data JPA
+- Spring Web (REST)
+- Spring Cloud OpenFeign
+- Spring Cloud Netflix Eureka
+- MySQL
 - Maven
-- NodeJS (version LTS)
-- Angular CLI (version 18)
-* **Versioning:**  Compte GitHub ou GitLab  
-
-* **API Testing:** Postman ou Insomnia  
-* **Optionnel:**
-- Docker  
-- MySQL / PostgreSQL / H2  
----
-
-### ⚠️ Important
-
-Même si IntelliJ IDEA Ultimate est installé :
-- Le **JDK est obligatoire**
-- Maven peut être utilisé via IntelliJ, mais une installation locale est recommandée
+- IntelliJ IDEA
 
 ---
 
-## 📦 Stack Technologique
+## 📄 Énoncé du workshop
 
-| Composant | Technologie |
-| :--- | :--- |
-| **Langages** | Java (Spring Boot), Python (FastAPI), Node.js |
-| **Bases de données** | H2, MySQL, MongoDB |
-| **Infrastructure** | Docker, Docker Compose |
-| **Communication** | REST (Synchrone) & RabbitMQ (Asynchrone) |
-| **Front End** | Angular |
+L’énoncé détaillé du Workshop 4 est disponible au format PDF :
+
+👉 [Télécharger l’énoncé du Workshop 2](https://github.com/badi3a/AWD-Training/blob/W04-OpenFeign/Atelier%20Communication%20entre%20MS%20avec%20OpenFeign.pdf)
+
+---
+
+## 📝 Travail à faire (Rendu)
+
+- Configurer Eureka Server
+- Créer les microservices Job, Candidat et Candidature
+- Activer OpenFeign dans le microservice Candidature
+- Implémenter les Feign Clients
+- Créer un endpoint enrichi `/candidature/{id}/details`
+- Tester la communication inter-services
+
+
+---
+
+## 🧠 Concepts abordés
+
+- Architecture microservices
+- Communication synchrone
+- Découverte de services
+- DTO vs Entity
+- Références distantes par identifiant
+- Agrégation de données distribuées
+
+---
+
+## ✅ Rendu attendu
+
+- Eureka fonctionnel
+- Microservices correctement enregistrés
+- Communication Feign opérationnelle
+- Endpoint enrichi fonctionnel
+- Code structuré et respectant les bonnes pratiques
+- Projet poussé sur **GitHub**
+
+---
+
+💡 **Conseil :**  
+Démarrez toujours le serveur Eureka avant de lancer l’API Gateway et les microservices.
+
+🚀 Bon courage et bonne implémentation !
 
 ---
 
