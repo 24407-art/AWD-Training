@@ -1,0 +1,28 @@
+# Devin environment blueprint.
+# Commands run from the repo root.
+initialize: |
+  # Node.js 20 for the Angular frontend (Angular 20 requires >= 20.19)
+  curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash - && sudo apt-get install -y nodejs
+  # Maven for the Spring Boot backend (Java 17 is already installed)
+  sudo apt-get install -y maven
+  # Maven Central rate-limits this VM (HTTP 429): use the GCS mirror
+  mkdir -p ~/.m2 && printf '<settings><mirrors><mirror><id>gcs-central</id><url>https://maven-central.storage-download.googleapis.com/maven2/</url><mirrorOf>central</mirrorOf></mirror></mirrors></settings>' > ~/.m2/settings.xml
+maintenance: |
+  (cd frontend && npm install)
+knowledge:
+  - name: build
+    contents: |
+      # Frontend: (cd frontend && npx ng build)
+      # Backend: (cd backend/<service> && mvn -Dmaven.test.skip=true package)
+      # NOTE: some existing tests fail to compile; -Dmaven.test.skip=true skips test compilation.
+  - name: run
+    contents: |
+      # MySQL (needed by job and canditature):
+      #   docker run -d --name mysql-jobboard -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=job_db -p 3306:3306 mysql:8
+      #   then load backend/microservices/job/database/job_db.sql
+      # Order: discovery (8761) -> gateway (8080) -> candidat (8081), job (8082), canditature (8085)
+      # Frontend: (cd frontend && npx ng serve) on http://localhost:4200
+  - name: services
+    contents: |
+      # Gateway routes: /mic1/** -> CANDIDAT, /mic2/** -> JOB, /mic3/** -> CANDITATURE
+      # Controllers already carry the /micX prefix (no strip needed).
